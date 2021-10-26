@@ -7,7 +7,12 @@ export default function Home() {
         tw`container mx-auto min-h-screen flex justify-center items-center`,
       ]}
     >
-      <h1 css={[tw`text-2xl text-blue-500`]}>Initialize TWIN</h1>
+      <div css={[tw`flex items-center gap-3`]}>
+        <h1 css={[tw`font-medium text-blue-600 text-2xl`]}>Initialize</h1>
+        <h1 css={[tw`font-medium bg-blue-600 text-white text-2xl`]}>
+          Twin.Macro
+        </h1>
+      </div>
     </div>
   )
 }
