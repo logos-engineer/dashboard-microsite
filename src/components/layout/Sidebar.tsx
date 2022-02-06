@@ -1,10 +1,28 @@
-import React from 'react';
+import React, { useContext, useRef } from 'react';
+
+import { SideNavContext } from '@/context/SideNavContext';
+import useOutsideClick from '@/helper/useOutsideClick';
 
 import ListMenu from '../sidebar/ListMenu';
 
 const Sidebar = () => {
+  const { state, dispatch } = useContext(SideNavContext);
+  const SideRef = useRef(null);
+  useOutsideClick(SideRef, () => {
+    dispatch({
+      type: 'close',
+    });
+  });
+
   return (
-    <div className='fixed inset-y-0 left-0 z-30 w-64 -translate-x-full transform overflow-y-auto bg-gray-900 transition duration-300 ease-in lg:static lg:inset-0 lg:translate-x-0'>
+    <div
+      ref={SideRef}
+      className={
+        'fixed inset-y-0 left-0 z-30 w-64 transform overflow-y-auto bg-gray-900 transition duration-300 ease-in lg:static lg:inset-0 lg:translate-x-0 ' +
+        (state.mobileOpen ? '' : '-translate-x-full')
+      }
+    >
+      {state.mobileOpen}
       <div className='mt-8 flex items-center justify-center'>
         <div className='flex items-center'>
           <svg
