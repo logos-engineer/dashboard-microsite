@@ -1,18 +1,15 @@
 /* eslint-disable @next/next/no-img-element */
 import { BellIcon, MenuAlt2Icon, SearchIcon } from '@heroicons/react/outline';
-import React, { useContext, useRef, useState } from 'react';
+import React, { useContext } from 'react';
+
+import useDropdown from '@/hooks/useDropdown';
 
 import { SideNavContext } from '@/context/SideNavContext';
-import useOutsideClick from '@/helper/useOutsideClick';
 
 export default function Header() {
-  const [dropdownLogin, setdropdownLogin] = useState<boolean>(false);
   const { dispatch: SideNavDispatch } = useContext(SideNavContext);
+  const [handleDropdown, Dropdown, outsideRef] = useDropdown();
 
-  const profileRef = useRef(null);
-  useOutsideClick(profileRef, () => {
-    setdropdownLogin(false);
-  });
   return (
     <header className='flex items-center justify-between border-b-4 border-indigo-600 bg-white py-4 px-6'>
       {/* Nav and Search Section*/}
@@ -53,9 +50,9 @@ export default function Header() {
           ></div>
         </div>
 
-        <div className='relative'>
+        <div className='relative' ref={outsideRef}>
           <button
-            onClick={() => setdropdownLogin(!dropdownLogin)}
+            onClick={handleDropdown}
             className='relative block h-8 w-8 overflow-hidden rounded-full shadow focus:outline-none'
           >
             <img
@@ -64,13 +61,7 @@ export default function Header() {
               alt='Your avatar'
             />
           </button>
-          <div
-            ref={profileRef}
-            className={
-              'absolute right-0 top-10 z-10 w-24 list-none divide-y divide-gray-100 rounded bg-white text-base shadow dark:bg-gray-700 ' +
-              (dropdownLogin ? 'block' : 'hidden')
-            }
-          >
+          <Dropdown classNames='right-0 top-10 z-10 w-24 list-none divide-y divide-gray-100 rounded bg-white text-base shadow dark:bg-gray-700 '>
             <ul className='py-1' aria-labelledby='dropdownButton'>
               <li>
                 <a
@@ -81,7 +72,7 @@ export default function Header() {
                 </a>
               </li>
             </ul>
-          </div>
+          </Dropdown>
         </div>
       </div>
     </header>
